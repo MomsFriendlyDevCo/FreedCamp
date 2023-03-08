@@ -20,14 +20,14 @@
   "main": "lib/parse.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MomsFriendlyDevCo/freedcamp.git"
+    "url": "git+https://github.com/MomsFriendlyDevCo/FreedCamp.git"
   },
   "author": "Matt Carter <matt@mfdc.biz>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MomsFriendlyDevCo/freedcamp/issues"
+    "url": "https://github.com/MomsFriendlyDevCo/FreedCamp/issues"
   },
-  "homepage": "https://github.com/MomsFriendlyDevCo/freedcamp#readme",
+  "homepage": "https://github.com/MomsFriendlyDevCo/FreedCamp#readme",
   "engineStrict": true,
   "engines": {
     "node": ">=16.14.0"
