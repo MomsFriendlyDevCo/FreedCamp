@@ -1,0 +1,58 @@
+{
+  "name": "@momsfriendlydevco/freedcamp",
+  "version": "0.0.0",
+  "description": "Freedcamp API helper",
+  "scripts": {
+    "lint": "eslint lib",
+    "test": "mocha"
+  },
+  "keywords": [
+    "freedcamp"
+  ],
+  "type": "module",
+  "imports": {
+    "#lib/*": "./lib/*.js"
+  },
+  "exports": {
+    ".": "./lib/index.js",
+    "./*": "./lib/*.js"
+  },
+  "main": "lib/parse.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MomsFriendlyDevCo/freedcamp.git"
+  },
+  "author": "Matt Carter <matt@mfdc.biz>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MomsFriendlyDevCo/freedcamp/issues"
+  },
+  "homepage": "https://github.com/MomsFriendlyDevCo/freedcamp#readme",
+  "engineStrict": true,
+  "engines": {
+    "node": ">=16.14.0"
+  },
+  "dependencies": {
+    "@momsfriendlydevco/cache": "^2.3.0",
+    "@momsfriendlydevco/dotenv": "^1.2.5",
+    "axios": "^1.3.4",
+    "debug": "^4.3.4"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "eslint": "^8.35.0",
+    "mocha": "^10.2.0"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es6": true,
+      "node": true,
+      "mocha": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 13,
+      "sourceType": "module"
+    }
+  }
+}
