@@ -3,7 +3,7 @@ import FCAuth from '#lib/auth';
 import FCIssues from '#lib/issues';
 
 // TEST CONFIG ----------------------
-const testIssueId = 'AEMO1078';
+const testIssueId = 'AEMO1020';
 // ----------------------------------
 
 describe('FeedCamp.Issues', function() {
@@ -35,9 +35,9 @@ describe('FeedCamp.Issues', function() {
 
 	it('retrieve random issues', ()=> Promise.resolve()
 		.then(()=> Promise.all([
-			fcIssues.get(issues[100].id),
-			fcIssues.get(issues[200].id),
-			fcIssues.get(issues[200].id),
+			fcIssues.get(issues[100].ref),
+			fcIssues.get(issues[200].ref),
+			fcIssues.get(issues[200].ref),
 		]))
 		.then((...issues) => {
 			issues.forEach(i => {
@@ -49,17 +49,17 @@ describe('FeedCamp.Issues', function() {
 	it.only('should retrieve one issue after cache purge', ()=> Promise.resolve()
 		.then(()=> fcIssues.cache.clear())
 		.then(()=> fcIssues.get(testIssueId))
-		.then((...res) => {
-			expect(res[0]).to.have.property('id', testIssueId);
+		.then(res => {
+			expect(res).to.have.property('ref', testIssueId);
 		})
 	);
 
 	it('should retrieve random issues after cache purge', ()=> Promise.resolve()
 		.then(()=> fcIssues.cache.clear())
 		.then(()=> Promise.all([
-			fcIssues.get(issues[100].id),
-			fcIssues.get(issues[200].id),
-			fcIssues.get(issues[200].id),
+			fcIssues.get(issues[100].ref),
+			fcIssues.get(issues[200].ref),
+			fcIssues.get(issues[200].ref),
 		]))
 		.then((...res) => {
 			expect(res[0]).to.deep.equal(issues[100]);
