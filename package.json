@@ -14,10 +14,10 @@
     "#lib/*": "./lib/*.js"
   },
   "exports": {
-    ".": "./lib/index.js",
+    ".": "./lib/freedcamp.js",
     "./*": "./lib/*.js"
   },
-  "main": "lib/parse.js",
+  "main": "lib/freedcamp.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MomsFriendlyDevCo/FreedCamp.git"
