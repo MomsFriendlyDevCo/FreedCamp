@@ -3,7 +3,7 @@ import FCAuth from '#lib/auth';
 import FCIssues from '#lib/issues';
 
 // TEST CONFIG ----------------------
-const testIssueId = 'AEMO1020';
+const testIssueId = 'AEMO1068';
 // ----------------------------------
 
 describe('FeedCamp.Issues', function() {
