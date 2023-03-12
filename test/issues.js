@@ -3,7 +3,7 @@ import FCAuth from '#lib/auth';
 import FCIssues from '#lib/issues';
 
 // TEST CONFIG ----------------------
-const testIssueId = 'AEMO1068';
+const testIssueRef = 'AEMO1084';
 // ----------------------------------
 
 describe('FeedCamp.Issues', function() {
@@ -21,6 +21,7 @@ describe('FeedCamp.Issues', function() {
 
 	before('setup issues instance', ()=> {
 		fcIssues = new FCIssues({auth: fcAuth});
+		fcIssues.includeRaw = true;
 	});
 
 	before('clear cache', ()=>
@@ -54,6 +55,8 @@ describe('FeedCamp.Issues', function() {
 			expect(issue).to.have.property('url');
 			expect(issue.url).to.be.a('string');
 			expect(issue.url).to.match(/^https:\/\/freedcamp.com\/view\/\d+\/issuetracker\/\d+\/?$/);
+			expect(issue).to.have.property('html');
+			expect(issue.html).to.be.a('string');
 			expect(issue).to.have.property('raw');
 			expect(issue.raw).to.be.an('object');
 		});
@@ -75,11 +78,37 @@ describe('FeedCamp.Issues', function() {
 
 	it('should retrieve one issue after cache purge', ()=> Promise.resolve()
 		.then(()=> fcIssues.cache.clear())
-		.then(()=> fcIssues.get(testIssueId))
+		.then(()=> fcIssues.get(testIssueRef))
 		.then(res => {
-			expect(res).to.have.property('ref', testIssueId);
+			expect(res).to.have.property('ref', testIssueRef);
 		})
 	);
+
+	it('should retrieve one issue + its comments', ()=> Promise.resolve()
+		.then(()=> fcIssues.get(testIssueRef, {comments: true}))
+		.then(res => {
+			expect(res).to.have.property('ref', testIssueRef);
+			expect(res).to.have.property('comments');
+			expect(res.comments).to.be.an('array');
+			res.comments.forEach(comment => {
+				expect(comment).to.have.property('id');
+				expect(comment.id).to.be.a('string');
+				expect(comment).to.have.property('created');
+				expect(comment.created).to.be.a('number');
+				// Omitted edited as its optional
+				expect(comment).to.have.property('user');
+				expect(comment.user).to.be.a('string');
+				expect(comment).to.have.property('url');
+				expect(comment.url).to.be.a('string');
+				expect(comment.url).to.match(/^https:\/\/freedcamp.com\/view\/\d+\/issuetracker\/\d+\//);
+				expect(comment).to.have.property('html');
+				expect(comment.html).to.be.a('string');
+				expect(comment).to.have.property('raw');
+				expect(comment.raw).to.be.an('object');
+			});
+		})
+	);
+
 
 	it('should retrieve random issues after cache purge', ()=> Promise.resolve()
 		.then(()=> fcIssues.cache.clear())
