@@ -1,10 +1,7 @@
 import {expect} from 'chai';
 import FCAuth from '#lib/auth';
 import FCIssues from '#lib/issues';
-
-// TEST CONFIG ----------------------
-const testIssueRef = 'AEMO1084';
-// ----------------------------------
+import config from './config.js';
 
 describe('FeedCamp.Issues', function() {
 	this.timeout(60 * 1000); //=~ 60s
@@ -12,7 +9,7 @@ describe('FeedCamp.Issues', function() {
 	let fcAuth, fcIssues;
 
 	before('setup auth', ()=> {
-		fcAuth = new FCAuth();
+		fcAuth = new FCAuth(config);
 	});
 
 	before('init auth', ()=>
@@ -78,16 +75,16 @@ describe('FeedCamp.Issues', function() {
 
 	it('should retrieve one issue after cache purge', ()=> Promise.resolve()
 		.then(()=> fcIssues.cache.clear())
-		.then(()=> fcIssues.get(testIssueRef))
+		.then(()=> fcIssues.get(config.testIssueRef))
 		.then(res => {
-			expect(res).to.have.property('ref', testIssueRef);
+			expect(res).to.have.property('ref', config.testIssueRef);
 		})
 	);
 
 	it('should retrieve one issue + its comments', ()=> Promise.resolve()
-		.then(()=> fcIssues.get(testIssueRef, {comments: true}))
+		.then(()=> fcIssues.get(config.testIssueRef, {comments: true}))
 		.then(res => {
-			expect(res).to.have.property('ref', testIssueRef);
+			expect(res).to.have.property('ref', config.testIssueRef);
 			expect(res).to.have.property('comments');
 			expect(res.comments).to.be.an('array');
 			res.comments.forEach(comment => {

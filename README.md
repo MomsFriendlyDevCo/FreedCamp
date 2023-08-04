@@ -7,7 +7,6 @@ This module provides a generic Freedcamp API wrapper which includes Auth and Iss
 ```javascript
 import {FCAuth, FCIssues} from '@momsfriendlydevco/freedcamp';
 
-// Options can also be specified via `process.env.FREEDCAMP_*`
 let fcAuth = new FCAuth({
     // Freedcamp API access
     secret: 'XXX',
@@ -45,7 +44,7 @@ FCAuth(options)
 ---------------
 Class constructor for a Freedcamp Authorization instance.
 
-Options can be the strings `secret`, `apikey`, `project` to specify Freedcamp options (also available via `process.env.FREEDCAMP_*` or `FREEDCAMP_*` in a local `.env` file)
+Options can be the strings `secret`, `apikey`, `project` to specify Freedcamp options
 
 Caching options can be specified via `cache` matching the spec used by [@MomsFriendlyDevCo/cache](https://github.com/MomsFriendlyDevCo/generic-cache) - but will work out of the box using the local filesystem.
 
