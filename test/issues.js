@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import FCAuth from '#lib/auth';
 import FCIssues from '#lib/issues';
 import config from './config.js';
+import mlog from 'mocha-logger';
 
 describe('FeedCamp.Issues', function() {
 	this.timeout(60 * 1000); //=~ 60s
@@ -14,6 +15,7 @@ describe('FeedCamp.Issues', function() {
 
 	before('init auth', ()=>
 		fcAuth.init()
+			.then(()=> mlog.log('Auth completed'))
 	);
 
 	before('setup issues instance', ()=> {
@@ -23,12 +25,23 @@ describe('FeedCamp.Issues', function() {
 
 	before('clear cache', ()=>
 		fcIssues.cache.clear()
+			.then(()=> mlog.log('Cache cleared'))
 	);
+
+	before(()=> mlog.log('Start fetch'))
 
 	let issues;
 	it('fetch all issues', ()=> Promise.resolve()
-		.then(()=> fcIssues.fetchAll())
+		.then(()=> fcIssues.fetchAll({
+			onFetchPage(pageNumber) {
+				mlog.log('Fetching page', pageNumber);
+			},
+			onProgress(issueCount) {
+				mlog.log('Fetched', issueCount, 'issues');
+			},
+		}))
 		.then(res => {
+			mlog.log('Fetched all issues into cache');
 			issues = res;
 			expect(issues).to.be.an('array');
 			expect(issues).to.have.length.above(10);
