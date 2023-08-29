@@ -16,6 +16,7 @@ let fcAuth = new FCAuth({
     // Caching options
     // This will work out of the box using the local filesystem
     // For more complex config see https://github.com/MomsFriendlyDevCo/generic-cache
+    // Can be either a string / array for caching modules, an object or caching options or a Cache() instance
     cache: {},
 });
 
