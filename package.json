@@ -1,6 +1,6 @@
 {
   "name": "@momsfriendlydevco/freedcamp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Freedcamp API wrapper",
   "scripts": {
     "lint": "eslint lib",
