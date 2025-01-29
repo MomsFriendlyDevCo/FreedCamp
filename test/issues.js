@@ -31,7 +31,7 @@ describe('FeedCamp.Issues', function() {
 	before(()=> mlog.log('Start fetch'))
 
 	let issues;
-	it('fetch all issues', ()=> Promise.resolve()
+	it('fetch all issues (primary project only)', ()=> Promise.resolve()
 		.then(()=> fcIssues.fetchAll({
 			onFetchPage(pageNumber) {
 				mlog.log('Fetching page', pageNumber);
@@ -41,7 +41,7 @@ describe('FeedCamp.Issues', function() {
 			},
 		}))
 		.then(res => {
-			mlog.log('Fetched all issues into cache');
+			mlog.log('Fetched', res.length, 'project issues');
 			issues = res;
 			expect(issues).to.be.an('array');
 			expect(issues).to.have.length.above(10);
@@ -53,6 +53,8 @@ describe('FeedCamp.Issues', function() {
 			expect(issue).to.be.an('object');
 			expect(issue).to.have.property('id');
 			expect(issue.id).to.be.a('string');
+			expect(issue).to.have.property('project');
+			expect(issue.project).to.be.a('string');
 			expect(issue).to.have.property('ref');
 			expect(issue.ref).to.be.a('string');
 			expect(issue.ref).to.match(/\d{4,}$/);
@@ -86,7 +88,7 @@ describe('FeedCamp.Issues', function() {
 		})
 	)
 
-	it('should retrieve one issue after cache purge', ()=> Promise.resolve()
+	it('should retrieve one issue after cache purge (primary project only)', ()=> Promise.resolve()
 		.then(()=> fcIssues.cache.clear())
 		.then(()=> fcIssues.get(config.testIssueRef))
 		.then(res => {
@@ -119,7 +121,6 @@ describe('FeedCamp.Issues', function() {
 		})
 	);
 
-
 	it('should retrieve random issues after cache purge', ()=> Promise.resolve()
 		.then(()=> fcIssues.cache.clear())
 		.then(()=> Promise.all([
@@ -131,6 +132,36 @@ describe('FeedCamp.Issues', function() {
 			expect(res[0]).to.deep.equal(issues[10]);
 			expect(res[1]).to.deep.equal(issues[20]);
 			expect(res[2]).to.deep.equal(issues[30]);
+		})
+	);
+
+	it('should retrieve one issue after cache purge (global)', ()=> Promise.resolve()
+		.then(()=> fcIssues.cache.clear())
+		.then(()=> fcIssues.get(config.testGlobalIssueRef, {global: true}))
+		.then(res => {
+			expect(res).to.have.property('ref', config.testGlobalIssueRef);
+		})
+	);
+
+	// Skipped as the fetched issue list can be hudge
+	it.skip('fetch all issues (global)', ()=> Promise.resolve()
+		.then(()=> fcIssues.fetchAll({
+			force: true,
+			global: true,
+			onFetchPage(pageNumber) {
+				mlog.log('Fetching page', pageNumber);
+			},
+			onProgress(issueCount) {
+				mlog.log('Fetched', issueCount, 'issues');
+			},
+		}))
+		.then(res => {
+			mlog.log('Fetched', res.length, 'global issues');
+			expect(res).to.be.an('array');
+			if (issues) expect(res).to.have.length.above(issues);
+
+			expect(res).to.satisfy(r => r.some(i => i.ref == config.testIssueRef), 'Has the primary project issue we are looking for');
+			expect(res).to.satisfy(r => r.some(i => i.ref == config.testGlobalIssueRef), 'Has the global issue we are looking for');
 		})
 	);
 

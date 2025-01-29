@@ -11,7 +11,7 @@ let fcAuth = new FCAuth({
     // Freedcamp API access
     secret: 'XXX',
     apikey: 'XXX',
-    project: 'XXX',
+    project: 'XXX', // Primary project to use (can be overridden with `{global: false}`)
 
     // Caching options
     // This will work out of the box using the local filesystem
@@ -70,6 +70,7 @@ This format is used for individual issues returned by `FCIssues.get()` or all is
 | Property           | Type            | Description                                                                         |
 |--------------------|-----------------|-------------------------------------------------------------------------------------|
 | `id`               | `String`        | The FC ID of the issue                                                              |
+| `project`          | `String`        | The FC Project ID of the issue                                                      |
 | `ref`              | `String`        | The human readable reference                                                        |
 | `title`            | `String`        | The issue title                                                                     |
 | `assignee`         | `String`        | The name of the person assigned                                                     |
@@ -98,6 +99,7 @@ Options can be:
 | Option   | Type      | Default | Description                                                                                                    |
 |----------|-----------|---------|----------------------------------------------------------------------------------------------------------------|
 | `force`  | `Boolean` | `false` | Whether to force the search, even if caching is present                                                        |
+| `global` | `Boolean` | `false` | Fetch issues from all projects instead of just the primary project                                             |
 | `limit`  | `Number`  | `100`   | How many issues to pull down at once                                                                           |
 | `offset` | `Number`  | `-1`    | Overriding offset to start pulling from, will pull once only and ignore page calculations, use `-1` to disable |
 
@@ -112,9 +114,10 @@ This will use the cached issue if it is available.
 Options can be:
 
 
-| Option     | Type      | Default | Description                              |
-|------------|-----------|---------|------------------------------------------|
-| `comments` | `Boolean` | `false` | Also fetch associated comment collection |
-| `cache`    | `Object`  |         | cache.worker() options                   |
+| Option     | Type      | Default | Description                                                        |
+|------------|-----------|---------|--------------------------------------------------------------------|
+| `global`   | `Boolean` | `false` | Fetch issues from all projects instead of just the primary project |
+| `comments` | `Boolean` | `false` | Also fetch associated comment collection                           |
+| `cache`    | `Object`  |         | cache.worker() options                                             |
 
 Returns a promise which will resolve with the found issue, if any.
